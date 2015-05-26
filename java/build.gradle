@@ -1,0 +1,53 @@
+apply plugin: 'application'
+apply plugin: 'idea'
+apply plugin: 'thrift'
+
+mainClassName = 'com.dataart.javathrifthelloworld.App'
+
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath 'co.tomlee.gradle.plugins:gradle-thrift-plugin:0.0.6'
+    }
+}
+
+sourceCompatibility = 1.5
+version = '1.0'
+
+sourceSets {
+    main {
+        java {
+            srcDir 'build/generated-src/thrift/main'
+        }
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.11'
+    compile 'org.apache.thrift:libthrift:0.9.1'
+    compile 'org.slf4j:slf4j-api:1.7.12'
+    compile 'org.slf4j:slf4j-simple:1.7.12'
+}
+
+task wrapper(type: Wrapper) {
+    version = '2.3'
+}
+
+generateThriftSource {
+    generators {
+        java {
+            option 'beans'
+        }
+    }
+}
+
+idea.module.excludeDirs = []
+idea.module.sourceDirs += file('build/generated-src/thrift/main')
+idea.module.jdkName = '1.8'

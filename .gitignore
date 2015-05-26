@@ -1,0 +1,9 @@
+java/build
+java/.idea
+java/.gradle
+*.iml
+*.o
+*.lib
+*.dll
+*.la
+*.lo
