@@ -2,36 +2,27 @@ cpp-thrift-hello-world is built by DataArt and distributed under MIT License.
 
 1) Download Boost from http://sourceforge.net/projects/boost/files/boost/1.58.0 and extract the files from the archive.
 2) Launch the Visual Studio Command Prompt. Change your current directory to the Boost root directory and invoke bootstrap.bat. To build Boost.Thread library invoke b2.exe as follows:
-  b2.exe --with-thread --with-date_time --build-type=complete --link=static --runtime-link=static --runtime-debugging=on
-  Boost library binaries will be placed in the stage\lib\ subdirectory of your build directory.
+	b2.exe --with-thread --with-date_time --build-type=complete --link=static --runtime-link=static --runtime-debugging=on
+	Boost library binaries will be placed in the stage\lib\ subdirectory of your build directory.
 3) Download "Win32 OpenSSL v1.0.2a" file from http://slproweb.com/products/Win32OpenSSL.html and install OpenSSL.
 4) You need to provide the information about 3rd party components for Visual Studio. You can do it in two ways:
-  - define an environment variables for 3rd party components:
-    BOOST_ROOT : For boost, e.g. D:\boost_1_58_0
-    OPENSSL_ROOT_DIR : For OpenSSL, e.g. D:\OpenSSL-Win32
-  - define User Macros in your projects (see below)
+	- define an environment variables for 3rd party components:
+		BOOST_ROOT : For boost, e.g. D:\boost_1_58_0
+		OPENSSL_ROOT_DIR : For OpenSSL, e.g. D:\OpenSSL-Win32
+	- define User Macros in your projects (see below)
 5) Download Thrift from https://github.com/apache/thrift/tree/0.9.2 .
-  Open the thrift.sln file located in the lib\cpp\ subdirectory of your Thrift build directory.
-  If you have not defined an environment variables for 3rd party components then open the 3rdparty file of the library in the Visual Studio Property Manager. Choose "Common Properties" -> "User Macros". Set BOOST_ROOT equals to Boost root directory path. Set OPENSSL_ROOT_DIR equals to OpenSSL root directory path.
-  In the Visual Studio Solution Explorer call the project popup menu and choose Properties. Choose "Configuration Properties" -> "VC++ Directories" and add write "$(ProjectDir)\src;$(ProjectDir)\src\thrift\windows;$(IncludePath)" into Include Directories item.
-  Choose "Common Properties" -> "C/C++" -> "General" and write "$(BOOST_ROOT)\boost;$(OPENSSL_ROOT_DIR)\include" into Additional Include Directories item.
-  Choose "Common Properties" -> "Librarian" -> "General" and add
-"$(BOOST_ROOT)\stage\lib;$(OPENSSL_ROOT_DIR)\lib\VC\static" to the Additional Library Directories item.
-  Build the project.
-6) Download the Thrift Compiler from https://thrift.apache.org/download , extract the files from the archive and add the Thrift Compiler directory path to the "PATH" environment variable.
-  Create a Thrift file. This file is an interface definition made up of thrift types and Services. The services you define in this file are implemented by the server and are called by any clients.
-  To generate the source code from a Thrift file invoke Thrift Compiler as follows:
-  $ thrift -r --gen cpp thrift_file.thrift 
-  The Thrift compiler will create the gen-cpp subdirectory of your current directory and place source code files there.
-  7) Open the VS\server\server.sln file.
-  Add the files (besides *.skeleton.cpp) from the gen-cpp directory to your current project.
-  If you have not defined an environment variables for 3rd party components then open the Microsoft.Cpp.Win32.user file of the library in the Visual Studio Property Manager. Choose "Common Properties" -> "User Macros". Set BOOST_ROOT equals to Boost root directory path. Set OPENSSL_ROOT_DIR equals to OpenSSL root directory path.
-  In the Visual Studio Solution Explorer call the project popup menu and choose Properties. Choose "Configuration Properties" -> "VC++ Directories".
-  Write "$(THRIFT_DIR)\lib\cpp\Debug;$(BOOST_ROOT)\stage\lib;$(LibraryPath)" into the Library Directories item.
-  Choose "Configuration Properties" -> "C/C++" -> "General" and 
-add "$(THRIFT_DIR)\lib\cpp\src;$(THRIFT_DIR)\lib\cpp\src\thrift\windows;$(ProjectDir)\..\..\src\gen-cpp;$(BOOST_ROOT)" to the Additional Include Directories item.
-  Choose "Configuration Properties" -> "Linker" -> "General" and write "$(BOOST_ROOT)\stage\lib;$(THRIFT_DIR)\lib\cpp\Debug;%(AdditionalLibraryDirectories)" to the Additional Library Directories.
-  Choose "Configuration Properties" -> "Linker" -> "Input" and add
-"libthrift.lib;libboost_thread-vc100-mt-gd-1_58.lib;libboost_chrono-vc100-mt-gd-1_58.lib;%(AdditionalDependencies)" to the Additional Dependencies item.
-  Build the project.
-  8) Open the VS\client\client.sln file and perform the same actions for the client project.
+	Open the thrift.sln file located in the lib\cpp\ subdirectory of your Thrift build directory.
+	If you have not defined an environment variables for 3rd party components then open the 3rdparty file of the library in the Visual Studio Property Manager. Choose "Common Properties" -> "User Macros". Set BOOST_ROOT equals to Boost root directory path. Set OPENSSL_ROOT_DIR equals to OpenSSL root directory path.
+	In the Visual Studio Solution Explorer call the project popup menu and choose Properties. Choose "Configuration Properties" -> "VC++ Directories" and add write "$(ProjectDir)\src;$(ProjectDir)\src\thrift\windows;$(IncludePath)" into Include Directories item.
+	Choose "Common Properties" -> "C/C++" -> "General" and write "$(BOOST_ROOT)\boost;$(OPENSSL_ROOT_DIR)\include" into Additional Include Directories item.
+	Choose "Common Properties" -> "Librarian" -> "General" and add
+	"$(BOOST_ROOT)\stage\lib;$(OPENSSL_ROOT_DIR)\lib\VC\static" to the Additional Library Directories item.
+	Build the project.
+6) Download cmake from http://www.cmake.org/download/ and install it.
+7) Change your current directory to the Thrift subdirectory of the base directory. Create a Thrift file in the thrift-src subdirectory and run:
+	gencpp.bat
+	The Thrift compiler will create the cpp\src\gen-cpp subdirectory of the base directory and place source code files there.
+8) Change your current directory to the cpp subdirectory of the base directory and run:
+	cmake .
+	You will obtain the files needed to build the server and client projects via Visual Studio.
+	Open the Visual Studio solution file and build the solution.
