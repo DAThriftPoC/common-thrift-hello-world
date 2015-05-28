@@ -1,43 +1,44 @@
 cpp-thrift-hello-world is built by DataArt and distributed under MIT License.
 
 1) Download Boost from http://sourceforge.net/projects/boost/files/boost/1.58.0 and extract the files from the archive. Add read permission for all users to the Boost root directory:
-	chmod a+r boost_1_58_0
+	$ chmod a+r boost_1_58_0
 2) Change your current directory to the Boost root directory and invoke bootstrap.sh. To build Boost.Thread library invoke b2 as follows:
-	sudo ./b2 --with-thread --with-date_time --build-type=complete --link=static --runtime-link=static --runtime-debugging=on --layout=tagged install
+	$ sudo ./b2 --with-thread --with-date_time --build-type=complete --link=static --runtime-link=static --runtime-debugging=on --layout=tagged install
 	Boost library binaries will be placed in the stage/lib subdirectory of your build directory.
 3) Install libtool:
-	sudo aptitude install libtool
+	$ sudo aptitude install libtool
 4) Install autoconf:
-	sudo aptitude install autoconf
+	$ sudo aptitude install autoconf
 5) Install automake:
-	wget http://http.us.debian.org/debian/pool/main/a/automake-1.14/automake_1.14.1-4_all.deb
-	sudo dpkg -i automake_1.14.1-4_all.deb
+	$ wget http://http.us.debian.org/debian/pool/main/a/automake-1.14/automake_1.14.1-4_all.deb
+	$ sudo dpkg -i automake_1.14.1-4_all.deb
 6) Install yacc and lex:
-	sudo aptitude install byacc flex
+	$ sudo aptitude install byacc flex
 7) Install libevent:
-	sudo aptitude install libevent-dev
-8)	 Download Thrift from https://github.com/apache/thrift/tree/0.9.2 .
+	$ sudo aptitude install libevent-dev
+8) Install cmake:
+	$ sudo aptitude install cmake
+9)	 Download Thrift from https://github.com/apache/thrift/tree/0.9.2 .
   Change your current directory to the Thrift root directory.
 	Run bootstrap.sh:
-	./bootstrap.sh
+	$ ./bootstrap.sh
   
 	Configure Thrift:
-	./configure --with-cpp --with-boost=../boost_1_58_0 --without-qt4 --without-csharp --without-java --without-erlang --without-nodejs --without-lua --without-python --without-perl --without-php --without-php_extension --without-ruby --without-haskell --without-go --without-d
+	$ ./configure --with-cpp --with-boost=../boost_1_58_0 --without-qt4 --without-csharp --without-java --without-erlang --without-nodejs --without-lua --without-python --without-perl --without-php --without-php_extension --without-ruby --without-haskell --without-go --without-d
 
 	Build Thrift:
-	make
-  
+	$ make
+
 	Install Thrift:
-	sudo make install
+	$ sudo make install
 
 	Add shared libraries directories to the dynamic linker cache:
-	sudo ldconfig
-9) Install cmake:
-	sudo aptitude install cmake
+	$ sudo ldconfig
 10) Change your current directory to the Thrift subdirectory of the base directory. Create a Thrift file in the thrift-src subdirectory and run:
-	./gencpp.sh
+	$ sh gencpp.sh
 	The Thrift compiler will create the cpp/src/gen-cpp subdirectory of the base directory and place source code files there.
 11) Change your current directory to the cpp subdirectory of the base directory and run:
-	cmake .
+	$ cmake .
 	You will obtain the Makefile. Run make to build the server and client projects:
-	make
+	$ make
+

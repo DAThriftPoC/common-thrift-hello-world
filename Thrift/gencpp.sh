@@ -1,4 +1,5 @@
-#!/bin/bash
+#!/bin/sh
+chmod a+x compiler/thrift
 compiler/thrift -r --gen cpp thrift-src/*.thrift
 if [ $? -ne 0 ]; then
 	echo "Cannot compile thrift files"
@@ -9,3 +10,4 @@ if [ -e ../cpp/src/gen-cpp ]; then
 	rm -rf ../cpp/src/gen-cpp
 fi
 mv -f gen-cpp ../cpp/src
+

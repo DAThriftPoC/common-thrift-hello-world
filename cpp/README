@@ -2,7 +2,7 @@ cpp-thrift-hello-world is built by DataArt and distributed under MIT License.
 
 1) Download Boost from http://sourceforge.net/projects/boost/files/boost/1.58.0 and extract the files from the archive.
 2) Launch the Visual Studio Command Prompt. Change your current directory to the Boost root directory and invoke bootstrap.bat. To build Boost.Thread library invoke b2.exe as follows:
-	b2.exe --with-thread --with-date_time --build-type=complete --link=static --runtime-link=static --runtime-debugging=on
+	> b2.exe --with-thread --with-date_time --build-type=complete --link=static --runtime-link=static --runtime-debugging=on
 	Boost library binaries will be placed in the stage\lib\ subdirectory of your build directory.
 3) Download "Win32 OpenSSL v1.0.2a" file from http://slproweb.com/products/Win32OpenSSL.html and install OpenSSL.
 4) You need to provide the information about 3rd party components for Visual Studio. You can do it in two ways:
@@ -10,7 +10,15 @@ cpp-thrift-hello-world is built by DataArt and distributed under MIT License.
 		BOOST_ROOT : For boost, e.g. D:\boost_1_58_0
 		OPENSSL_ROOT_DIR : For OpenSSL, e.g. D:\OpenSSL-Win32
 	- define User Macros in your projects (see below)
-5) Download Thrift from https://github.com/apache/thrift/tree/0.9.2 .
+5) Download cmake from http://www.cmake.org/download/ and install it.
+6) If you want to build the libthriftnb library and the Threaded Server application you need to build the libevent library previously.
+	Download libevent from https://github.com/libevent/libevent.git .
+	Change your current directory to the libevent root directory and type:
+       > mkdir build && cd build
+       > cmake -G "Visual Studio 10" ..
+       > start libevent.sln
+       Build the solution.
+7) Download Thrift from https://github.com/apache/thrift/tree/0.9.2 .
 	Open the thrift.sln file located in the lib\cpp\ subdirectory of your Thrift build directory.
 	If you have not defined an environment variables for 3rd party components then open the 3rdparty file of the library in the Visual Studio Property Manager. Choose "Common Properties" -> "User Macros". Set BOOST_ROOT equals to Boost root directory path. Set OPENSSL_ROOT_DIR equals to OpenSSL root directory path.
 	In the Visual Studio Solution Explorer call the project popup menu and choose Properties. Choose "Configuration Properties" -> "VC++ Directories" and add write "$(ProjectDir)\src;$(ProjectDir)\src\thrift\windows;$(IncludePath)" into Include Directories item.
@@ -18,11 +26,20 @@ cpp-thrift-hello-world is built by DataArt and distributed under MIT License.
 	Choose "Common Properties" -> "Librarian" -> "General" and add
 	"$(BOOST_ROOT)\stage\lib;$(OPENSSL_ROOT_DIR)\lib\VC\static" to the Additional Library Directories item.
 	Build the project.
-6) Download cmake from http://www.cmake.org/download/ and install it.
-7) Change your current directory to the Thrift subdirectory of the base directory. Create a Thrift file in the thrift-src subdirectory and run:
-	gencpp.bat
+8) If you want to build the Threaded Server application you need to link it with the libthriftnb library. To build the libthriftnb library do the following.
+	If you have not defined an environment variables for 3rd party components then open the 3rdparty file of the library in the Visual Studio Property Manager. Choose "Common Properties" -> "User Macros". Set BOOST_ROOT equals to Boost root directory path. Set OPENSSL_ROOT_DIR equals to OpenSSL root directory path.
+	In the Visual Studio Solution Explorer call the project popup menu and choose Properties. Choose "Configuration Properties" -> "VC++ Directories" and add write "$(ProjectDir)\src\;$(ProjectDir)\src\thrift\windows\;$(BOOST_ROOT)\include;$(BOOST_ROOT)\;$(LIBEVENT_ROOT)\WIN32-Code\;$(LIBEVENT_ROOT)\include;$(LIBEVENT_ROOT)\;$(IncludePath)" into Include Directories item.
+	Choose "Common Properties" -> "C/C++" -> "General" and write "$(BOOST_ROOT)\boost;$(OPENSSL_ROOT_DIR)\include;$(LIBEVENT_ROOT_DIR);$(LIBEVENT_ROOT_DIR)\include;$(LIBEVENT_ROOT_DIR)\WIN32-Code;$(LIBEVENT_ROOT_DIR)\WIN32-Code\nmake" into Additional Include Directories item.
+	Choose "Common Properties" -> "Librarian" -> "General" and add
+	"D:\libevent\build\lib\Debug;%(AdditionalLibraryDirectories)" to the Additional Library Directories item.
+       Choose "Common Properties" -> "Librarian" -> "General" and add
+	"event.lib;event_core.lib;event_extra.lib;%(AdditionalDependencies)" to the Additional Dependencies item.
+	Build the project.
+9) Change your current directory to the Thrift subdirectory of the base directory. Create a Thrift file in the thrift-src subdirectory and run:
+	> gencpp.bat
 	The Thrift compiler will create the cpp\src\gen-cpp subdirectory of the base directory and place source code files there.
 8) Change your current directory to the cpp subdirectory of the base directory and run:
-	cmake .
+	> cmake .
 	You will obtain the files needed to build the server and client projects via Visual Studio.
 	Open the Visual Studio solution file and build the solution.
+

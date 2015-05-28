@@ -6,9 +6,9 @@ set(SRC_PATH_GENCPP ${HOME}/src/gen-cpp)
 
 if (UNIX)
 	set(OPENSSL_INCLUDE /usr/include/openssl)
-#	RT_INCLUDE
-#	PTHREAD_INCLUDE 
 elseif (WIN32)
+	set(OPENSSL_ROOT D:/development/proof/OpenSSL-Win32)
+	set(OPENSSL_INCLUDE ${OPENSSL_ROOT}/include)
+	set(LIBEVENT_ROOT D:/libevent)
 endif()
-
 
