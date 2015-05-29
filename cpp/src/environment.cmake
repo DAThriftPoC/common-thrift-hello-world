@@ -1,8 +1,8 @@
 set(HOME ${CMAKE_HOME_DIRECTORY})
 
-set(SRC_PATH_SERVER ${HOME}/src/server)
-set(SRC_PATH_CLIENT ${HOME}/src/client)
-set(SRC_PATH_GENCPP ${HOME}/src/gen-cpp)
+set(SRC_PATH_SERVER ${HOME}/server)
+set(SRC_PATH_CLIENT ${HOME}/client)
+set(SRC_PATH_GENCPP ${HOME}/gen-cpp)
 
 if (UNIX)
 	set(OPENSSL_INCLUDE /usr/include/openssl)

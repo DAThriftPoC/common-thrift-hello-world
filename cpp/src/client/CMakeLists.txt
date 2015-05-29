@@ -11,7 +11,7 @@ if (UNIX)
 	add_executable(TutorialClient ${SOURCE_CLIENT}) # link_directories should be before add_executable
 	target_link_libraries(TutorialClient ssl crypto rt pthread thrift tutorialgencpp)
 elseif (WIN32)
-	link_directories(${HOME}/3rdParty/Thrift/lib/cpp/Debug ${HOME}/3rdParty/boost_1_58_0/stage/lib ${HOME})
+	link_directories(${HOME}/../3rdParty/Thrift/lib/cpp/Debug ${HOME}/../3rdParty/boost_1_58_0/stage/lib ${HOME})
 	add_executable(TutorialClient ${SOURCE_CLIENT}) # link_directories should be before add_executable
 	target_link_libraries(TutorialClient libboost_thread-vc100-mt-gd-1_58 libthrift libtutorialgencpp)
 endif ()

@@ -5,7 +5,7 @@ include(environment.cmake required)
 project(cpp_hello_world)
 
 include_directories(${OPENSSL_INCLUDE} ${PTHREAD_INCLUDE} ${SRC_PATH_GENCPP})
-link_directories(${HOME}/3rdParty/Thrift/lib/cpp/Debug ${HOME}/3rdParty/boost_1_58_0/stage/lib)
+link_directories(${HOME}/../3rdParty/Thrift/lib/cpp/Debug ${HOME}/../3rdParty/boost_1_58_0/stage/lib)
 AUX_SOURCE_DIRECTORY(${SRC_PATH_GENCPP} SOURCE_LIB)
 
 if (UNIX)
