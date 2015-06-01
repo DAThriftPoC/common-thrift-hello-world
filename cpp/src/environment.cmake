@@ -3,6 +3,8 @@ set(HOME ${CMAKE_HOME_DIRECTORY})
 set(SRC_PATH_SERVER ${HOME}/server)
 set(SRC_PATH_CLIENT ${HOME}/client)
 set(SRC_PATH_GENCPP ${HOME}/gen-cpp)
+set(BOOST_ROOT ${HOME}/../3rdParty/boost_1_58_0)
+set(THRIFT_ROOT ${HOME}/../3rdParty/Thrift)
 
 if (UNIX)
 	set(OPENSSL_INCLUDE /usr/include/openssl)
