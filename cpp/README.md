@@ -50,8 +50,7 @@ Launch the Visual Studio Command Prompt and change your current directory to the
 > build-libthrift.bat
   ```
 The libthrift library will be created in the lib\\cpp\\Debug subdirectory of the
- Thrift root directory.
-
+ Thrift root directory.  
 If you want to build the Threaded Server application you need to link it with
  the libthriftnb library. To build the libthriftnb library run:  
   ```
