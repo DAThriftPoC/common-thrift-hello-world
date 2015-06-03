@@ -72,11 +72,19 @@ The Thrift compiler will create the cpp\\src\\gen-cpp subdirectory of the base
  directory and place source code files there.
 
 9. Change your current directory to the cpp subdirectory of the base directory
- and run:  
+ and type:  
   ```
 > cmake .
   ```
-You will obtain the files needed to build the server and client projects via
+
+  9.1. **OPTIONAL.** *If you want to build the Threaded Server application then
+	type:*
+
+  ```
+> cmake -Dnb=ON .
+  ```
+
+  You will obtain the files needed to build the server and client projects via
  Visual Studio.  
 Open the Visual Studio solution file and build the solution.
 
@@ -156,11 +164,19 @@ The Thrift compiler will create the cpp/src/gen-cpp subdirectory of the base
  directory and place source code files there.
 
 11. Change your current directory to the cpp/src subdirectory of the base directory
- and run:  
+ and type:  
   ```
 $ cmake .
   ```
-You will obtain the Makefile. Run make to build the server and client projects:  
+
+  11.1. **OPTIONAL.** *If you want to build the Threaded Server application then
+	type:*
+
+  ```
+> cmake -Dnb=ON .
+  ```
+
+  You will obtain the Makefile. Run make to build the server and client projects:  
   ```
 $ make
   ```
