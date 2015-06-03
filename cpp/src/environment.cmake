@@ -12,5 +12,6 @@ elseif (WIN32)
 	set(OPENSSL_ROOT D:/development/proof/OpenSSL-Win32)
 	set(OPENSSL_INCLUDE ${OPENSSL_ROOT}/include)
 	set(LIBEVENT_ROOT D:/libevent)
+	set(BOOST_LIB libboost_thread-vc100-mt-gd-1_58)
 endif()
 

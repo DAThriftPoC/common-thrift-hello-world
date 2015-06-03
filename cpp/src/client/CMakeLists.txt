@@ -18,11 +18,11 @@ AUX_SOURCE_DIRECTORY(${SRC_PATH_CLIENT} SOURCE_CLIENT)
 if (UNIX)
 	link_directories(/usr/local/lib ${HOME})
 	add_executable(TutorialClient ${SOURCE_CLIENT}) # link_directories should be before add_executable
-	target_link_libraries(TutorialClient ssl crypto rt pthread thrift tutorialgencpp)
+	target_link_libraries(TutorialClient ssl crypto pthread thrift tutorialgencpp)
 elseif (WIN32)
 	link_directories(${THRIFT_ROOT}/lib/cpp/Debug ${BOOST_ROOT}/stage/lib ${HOME})
 	add_executable(TutorialClient ${SOURCE_CLIENT}) # link_directories should be before add_executable
-	target_link_libraries(TutorialClient libboost_thread-vc100-mt-gd-1_58 libthrift libtutorialgencpp)
+	target_link_libraries(TutorialClient ${BOOST_LIB} libthrift libtutorialgencpp)
 else ()
 	message("unsupported OS")
 endif ()
