@@ -155,8 +155,8 @@ Add shared libraries directories to the dynamic linker cache:
 $ sudo ldconfig
   ```
 
-10. Change your current directory to the Thrift subdirectory of the base directory.
- Create a Thrift file in the thrift-src subdirectory and run:  
+10. Change your current directory to the thrift subdirectory of the base directory
+ and run:  
   ```
 $ sh gencpp.sh
   ```
