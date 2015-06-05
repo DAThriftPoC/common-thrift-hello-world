@@ -3,6 +3,9 @@
 #include <thrift/server/TSimpleServer.h>
 #include <thrift/transport/TServerSocket.h>
 #include <thrift/transport/TBufferTransports.h>
+#include <thrift/transport/TSSLSocket.h>
+#include "TSSLServerSocket.h"
+
 
 using namespace ::apache::thrift;
 using namespace ::apache::thrift::protocol;
@@ -29,11 +32,16 @@ int main(int argc, char **argv) {
   int port = 9090;
   shared_ptr<CalculatorHandler> handler(new CalculatorHandler());
   shared_ptr<TProcessor> processor(new CalculatorProcessor(handler));
-  shared_ptr<TServerTransport> serverTransport(new TServerSocket(port));
+  
+  shared_ptr<TSSLSocketFactory> sslSocketFactory(new TSSLSocketFactory());
+  sslSocketFactory->loadCertificate(std::string("../../keys/server.crt").c_str());
+  sslSocketFactory->loadPrivateKey(std::string("../../keys/server.key").c_str());
+  shared_ptr<TServerSocket> serverSocket(new TSSLServerSocket(port, sslSocketFactory));
+
   shared_ptr<TTransportFactory> transportFactory(new TBufferedTransportFactory());
   shared_ptr<TProtocolFactory> protocolFactory(new TBinaryProtocolFactory());
 
-  TSimpleServer server(processor, serverTransport, transportFactory, protocolFactory);
-  server.serve();
+  TSimpleServer server(processor, serverSocket, transportFactory, protocolFactory);
+	server.serve();
   return 0;
 }

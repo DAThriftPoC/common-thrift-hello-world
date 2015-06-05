@@ -16,13 +16,17 @@ project(client)
 AUX_SOURCE_DIRECTORY(${SRC_PATH_CLIENT} SOURCE_CLIENT)
 
 if (UNIX)
-	link_directories(/usr/local/lib ${HOME})
+	include_directories(/usr/include ${OPENSSL_INCLUDE} ${SRC_PATH_GENCPP})
+	link_directories(/usr/local/lib /usr/lib/x86_64-linux-gnu ${HOME})
 	add_executable(TutorialClient ${SOURCE_CLIENT}) # link_directories should be before add_executable
 	target_link_libraries(TutorialClient ssl crypto pthread thrift tutorialgencpp)
 elseif (WIN32)
-	link_directories(${THRIFT_ROOT}/lib/cpp/Debug ${BOOST_ROOT}/stage/lib ${HOME})
+	include_directories(${OPENSSL_INCLUDE} ${SRC_PATH_GENCPP})
+	link_directories(${THRIFT_ROOT}/lib/cpp/Debug ${BOOST_ROOT}/stage/lib ${HOME}
+									 ${OPENSSL_ROOT}/lib/VC/static)
 	add_executable(TutorialClient ${SOURCE_CLIENT}) # link_directories should be before add_executable
-	target_link_libraries(TutorialClient ${BOOST_LIB} libthrift libtutorialgencpp)
+	target_link_libraries(TutorialClient ${BOOST_LIB} libthrift libtutorialgencpp
+												libeay32MTd ssleay32MTd)
 else ()
 	message("unsupported OS")
 endif ()
