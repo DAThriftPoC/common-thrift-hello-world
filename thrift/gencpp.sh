@@ -1,6 +1,5 @@
 #!/bin/sh
-chmod a+x compiler/thrift
-compiler/thrift -r --gen cpp thrift-src/*.thrift
+thrift -r --gen cpp thrift-src/*.thrift
 if [ $? -ne 0 ]; then
 	echo "Cannot compile thrift files"
 	exit 1

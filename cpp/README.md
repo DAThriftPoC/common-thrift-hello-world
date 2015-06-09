@@ -155,7 +155,7 @@ Add shared libraries directories to the dynamic linker cache:
 $ sudo ldconfig
   ```
 
-10. Change your current directory to the thrift subdirectory of the base directory
+9. Change your current directory to the thrift subdirectory of the base directory
  and run:  
   ```
 $ sh gencpp.sh
@@ -163,13 +163,13 @@ $ sh gencpp.sh
 The Thrift compiler will create the cpp/src/gen-cpp subdirectory of the base
  directory and place source code files there.
 
-11. Change your current directory to the cpp/src subdirectory of the base directory
+10. Change your current directory to the cpp/src subdirectory of the base directory
  and type:  
   ```
 $ cmake .
   ```
 
-  11.1. **OPTIONAL.** *If you want to build the Threaded Server application then
+  10.1. **OPTIONAL.** *If you want to build the Threaded Server application then
 	type:*
 
   ```
