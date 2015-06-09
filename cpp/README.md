@@ -25,10 +25,7 @@ Boost library binaries will be placed in the stage\\lib subdirectory of your
 
 4. Download cmake from <http://www.cmake.org/download/> and install it.
 
-5. Open the environment.cmake file in a text editor and edit values of the listed
- environment variables.
-
-  5.1. **OPTIONAL.** *If you want to build the libthriftnb library and the Threaded Server
+  4.1. **OPTIONAL.** *If you want to build the libthriftnb library and the Threaded Server
  application you need to build the libevent library previously.  
 Download libevent from <https://github.com/libevent/libevent.git>.  
 Launch the Visual Studio Command Prompt. Change your current directory to the
@@ -40,11 +37,11 @@ Launch the Visual Studio Command Prompt. Change your current directory to the
 > msbuild libevent.sln
     ```
 
-6. You need to provide the information about the 3rd party components for MSBuild.
+5. You need to provide the information about the 3rd party components for MSBuild.
  Open the environment.bat file in a text editor and edit values of the listed
  environment variables.
 
-7. Download Thrift from <https://github.com/apache/thrift/tree/0.9.2>.  
+6. Download Thrift from <https://github.com/apache/thrift/tree/0.9.2>.  
 Launch the Visual Studio Command Prompt and change your current directory to the
  cpp subdirectory of the base directory. To build the libthrift library run:  
   ```
@@ -53,7 +50,7 @@ Launch the Visual Studio Command Prompt and change your current directory to the
 The libthrift library will be created in the lib\\cpp\\Debug subdirectory of the
  Thrift root directory.
 
-  7.1. **OPTIONAL.** *If you want to build the Threaded Server application you
+  6.1. **OPTIONAL.** *If you want to build the Threaded Server application you
  need to link it with the libthriftnb library. To build the libthriftnb library run:*
 
   ```
@@ -63,7 +60,7 @@ The libthrift library will be created in the lib\\cpp\\Debug subdirectory of the
    *The libthriftnb library will be created in the lib\\cpp\\Debug subdirectory of the
  Thrift root directory.*
 
-8. Change your current directory to the thrift subdirectory of the base directory
+7. Change your current directory to the thrift subdirectory of the base directory
  and run:  
   ```
 > gencpp.bat  
@@ -71,7 +68,11 @@ The libthrift library will be created in the lib\\cpp\\Debug subdirectory of the
 The Thrift compiler will create the cpp\\src\\gen-cpp subdirectory of the base
  directory and place source code files there.
 
-9. Change your current directory to the cpp subdirectory of the base directory
+8. Change your current directory to the cpp\\src subdirectory of the base
+ directory. Open the environment.cmake file in a text editor and edit values of
+ the listed environment variables.
+ 
+9. Change your current directory to the cpp\\src subdirectory of the base directory
  and type:  
   ```
 > cmake .
@@ -155,7 +156,7 @@ Add shared libraries directories to the dynamic linker cache:
 $ sudo ldconfig
   ```
 
-10. Change your current directory to the thrift subdirectory of the base directory
+9. Change your current directory to the thrift subdirectory of the base directory
  and run:  
   ```
 $ sh gencpp.sh
@@ -163,6 +164,10 @@ $ sh gencpp.sh
 The Thrift compiler will create the cpp/src/gen-cpp subdirectory of the base
  directory and place source code files there.
 
+10. Change your current directory to the cpp/src subdirectory of the base
+ directory. Open the environment.cmake file in a text editor and edit values of
+ the listed environment variables.
+ 
 11. Change your current directory to the cpp/src subdirectory of the base directory
  and type:  
   ```
