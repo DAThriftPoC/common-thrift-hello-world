@@ -40,6 +40,13 @@ task wrapper(type: Wrapper) {
     gradleVersion = '2.3'
 }
 
+test {
+    testLogging {
+        showStandardStreams = true
+        events 'failed', 'passed', 'skipped'
+    }
+}
+
 generateThriftSource {
     generators {
         java {
