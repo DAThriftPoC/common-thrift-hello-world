@@ -9,8 +9,8 @@ import org.apache.thrift.transport.*;
 
 public class App {
     public static void main(String[] args) throws InterruptedException, TTransportException {
-        CalculatorImpl calculator = new CalculatorImpl();
-        final Calculator.Processor calculatorProcessor = new Calculator.Processor(calculator);
+        DummyServiceImpl calculator = new DummyServiceImpl();
+        final DummyService.Processor calculatorProcessor = new DummyService.Processor(calculator);
         TServerTransport serverTransport = new TServerSocket(2302);
         final TServer server = new TSimpleServer(new TServer.Args(serverTransport).processor(calculatorProcessor));
 
@@ -28,7 +28,7 @@ public class App {
         transport.open();
 
         TProtocol protocol = new TBinaryProtocol(transport);
-        Calculator.Client client = new Calculator.Client(protocol);
+        DummyService.Client client = new DummyService.Client(protocol);
 
         try {
             int result = client.add(2, 3);
@@ -41,12 +41,5 @@ public class App {
 
         server.stop();
         serverThread.join();
-    }
-
-    public static class CalculatorImpl implements Calculator.Iface {
-        @Override
-        public int add(int a, int b) throws TException {
-            return a + b;
-        }
     }
 }

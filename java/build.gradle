@@ -37,7 +37,14 @@ dependencies {
 }
 
 task wrapper(type: Wrapper) {
-    version = '2.3'
+    gradleVersion = '2.3'
+}
+
+test {
+    testLogging {
+        showStandardStreams = true
+        events 'failed', 'passed', 'skipped'
+    }
 }
 
 generateThriftSource {
