@@ -37,7 +37,7 @@ dependencies {
 }
 
 task wrapper(type: Wrapper) {
-    version = '2.3'
+    gradleVersion = '2.3'
 }
 
 generateThriftSource {
