@@ -32,6 +32,6 @@ struct Person {
 service DummyService {
     i32 add(1:i32 a, 2:i32 b)
 
-    Person getPerson(1:string id),
+    Person getPerson(1:string id)
     i32 getPersonPhoneCount(1:Person person)
 }
