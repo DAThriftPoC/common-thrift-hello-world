@@ -42,8 +42,8 @@ int main(int argc, char **argv)
 	const std::string DEFAULT_PROTOCOL = "json";
 	const int DEFAULT_PORT = 80;
 	
-  shared_ptr<CalculatorHandler> handler(new CalculatorHandler());
-  shared_ptr<TProcessor> processor(new CalculatorProcessor(handler));
+	shared_ptr<CalculatorHandler> handler(new CalculatorHandler());
+	shared_ptr<TProcessor> processor(new CalculatorProcessor(handler));
 	std::string transportType("");
 	std::string protocolType("");
 	int port;
@@ -91,34 +91,34 @@ int main(int argc, char **argv)
 	boost::shared_ptr<TProtocolFactory> protocolFactory;
 	if (protocolType.compare("json") == 0)
 	{
-    boost::shared_ptr<TProtocolFactory> jsonProtocolFactory(new TJSONProtocolFactory());
-    protocolFactory = jsonProtocolFactory;
-  }
+		boost::shared_ptr<TProtocolFactory> jsonProtocolFactory(new TJSONProtocolFactory());
+		protocolFactory = jsonProtocolFactory;
+	}
 	else if (protocolType.compare("compact") == 0)
 	{
-    boost::shared_ptr<TProtocolFactory> compactProtocolFactory(new TCompactProtocolFactory());
-    protocolFactory = compactProtocolFactory;
-  }
+		boost::shared_ptr<TProtocolFactory> compactProtocolFactory(new TCompactProtocolFactory());
+		protocolFactory = compactProtocolFactory;
+	}
 	else
 	{
-    boost::shared_ptr<TProtocolFactory> binaryProtocolFactory(new TBinaryProtocolFactoryT<TBufferBase>());
-    protocolFactory = binaryProtocolFactory;
-  }
+		boost::shared_ptr<TProtocolFactory> binaryProtocolFactory(new TBinaryProtocolFactoryT<TBufferBase>());
+		protocolFactory = binaryProtocolFactory;
+	}
 
 	boost::shared_ptr<TTransportFactory> transportFactory;
 	if (transportType.compare("http") == 0)
 	{
-    boost::shared_ptr<TTransportFactory> httpTransportFactory(new THttpServerTransportFactory());
-    transportFactory = httpTransportFactory;
-  }
+		boost::shared_ptr<TTransportFactory> httpTransportFactory(new THttpServerTransportFactory());
+		transportFactory = httpTransportFactory;
+	}
 	else if (transportType.compare("buffered") == 0)
 	{
-    boost::shared_ptr<TTransportFactory> bufferedTransportFactory(new TBufferedTransportFactory());
-    transportFactory = bufferedTransportFactory;
-  }
+		boost::shared_ptr<TTransportFactory> bufferedTransportFactory(new TBufferedTransportFactory());
+		transportFactory = bufferedTransportFactory;
+	}
 
-  TSimpleServer server(processor, serverSocket, transportFactory, protocolFactory);
+	TSimpleServer server(processor, serverSocket, transportFactory, protocolFactory);
 	server.serve();
-  return 0;
+	return 0;
 }
 
