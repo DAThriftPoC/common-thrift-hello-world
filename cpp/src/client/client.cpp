@@ -17,7 +17,7 @@ using boost::shared_ptr;
 
 bool cmdOptionExists(char** begin, char** end, const std::string& option)
 {
-    return std::find(begin, end, option) != end;
+	return std::find(begin, end, option) != end;
 }
 
 int main(int argc, char **argv) 
@@ -72,38 +72,38 @@ int main(int argc, char **argv)
 	boost::shared_ptr<TSocket> socket;
 	socket = boost::shared_ptr<TSocket>(new TSocket(host, port));
 
-  boost::shared_ptr<TTransport> transport;
+	boost::shared_ptr<TTransport> transport;
 	if (transportType.compare("http") == 0)
 	{
-    boost::shared_ptr<TTransport> httpSocket(new THttpClient(socket, host, "/"));
-    transport = httpSocket;
-  }
+		boost::shared_ptr<TTransport> httpSocket(new THttpClient(socket, host, "/"));
+		transport = httpSocket;
+	}
 	else if (transportType.compare("buffered") == 0)
 	{
-    boost::shared_ptr<TBufferedTransport> bufferedSocket(new TBufferedTransport(socket));
-    transport = bufferedSocket;
-  }
-	
+		boost::shared_ptr<TBufferedTransport> bufferedSocket(new TBufferedTransport(socket));
+		transport = bufferedSocket;
+	}
+
 	boost::shared_ptr<TProtocol> protocol;
 	if (protocolType.compare("json") == 0)
 	{
-    boost::shared_ptr<TProtocol> jsonProtocol(new TJSONProtocol(transport));
-    protocol = jsonProtocol;
-  }
+		boost::shared_ptr<TProtocol> jsonProtocol(new TJSONProtocol(transport));
+		protocol = jsonProtocol;
+	}
 	else if (protocolType.compare("compact") == 0)
 	{
-    boost::shared_ptr<TProtocol> compactProtocol(new TCompactProtocol(transport));
-    protocol = compactProtocol;
-  }
+		boost::shared_ptr<TProtocol> compactProtocol(new TCompactProtocol(transport));
+		protocol = compactProtocol;
+	}
 	else
 	{
-    boost::shared_ptr<TBinaryProtocol> binaryProtocol(new TBinaryProtocol(transport));
-    protocol = binaryProtocol;
-  }
-	
+		boost::shared_ptr<TBinaryProtocol> binaryProtocol(new TBinaryProtocol(transport));
+		protocol = binaryProtocol;
+	}
+
 	shared_ptr<CalculatorClient> client(new CalculatorClient(protocol));
-  transport->open();
-  printf("%d\n", client->add(0xFF, 10));
-  return 0;
+	transport->open();
+	printf("%d\n", client->add(0xFF, 10));
+	return 0;
 }
 
