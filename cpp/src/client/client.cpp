@@ -17,7 +17,7 @@ using boost::shared_ptr;
 
 bool cmdOptionExists(char** begin, char** end, const std::string& option)
 {
-    return std::find(begin, end, option) != end;
+	return std::find(begin, end, option) != end;
 }
 
 int main(int argc, char **argv) 
@@ -83,7 +83,7 @@ int main(int argc, char **argv)
 		boost::shared_ptr<TBufferedTransport> bufferedSocket(new TBufferedTransport(socket));
 		transport = bufferedSocket;
 	}
-	
+
 	boost::shared_ptr<TProtocol> protocol;
 	if (protocolType.compare("json") == 0)
 	{
@@ -100,7 +100,7 @@ int main(int argc, char **argv)
 		boost::shared_ptr<TBinaryProtocol> binaryProtocol(new TBinaryProtocol(transport));
 		protocol = binaryProtocol;
 	}
-	
+
 	shared_ptr<CalculatorClient> client(new CalculatorClient(protocol));
 	transport->open();
 	printf("%d\n", client->add(0xFF, 10));
