@@ -1,7 +1,7 @@
 #include <algorithm>
 #include <string>
 
-#include "Calculator.h"
+#include "DummyService.h"
 #include <thrift/protocol/TBinaryProtocol.h>
 #include <thrift/protocol/TCompactProtocol.h>
 #include <thrift/protocol/TJSONProtocol.h>
@@ -20,13 +20,53 @@ bool cmdOptionExists(char** begin, char** end, const std::string& option)
 	return std::find(begin, end, option) != end;
 }
 
+void addPhone(std::vector<Phone>& phones,
+	const std::string& num, PhoneType::type type)
+{
+	Phone phone;
+	phone.phoneNumber = num;
+	phone.type = type;
+	phones.push_back(phone);
+}
+
+bool runTest(shared_ptr<DummyServiceClient> client)
+{
+	int result = client->add(2, 3);
+	if (result != 5)
+		return false;
+
+	Person person;
+	client->getPerson(person, "11");
+	if (("11" != person.id) ||
+		("Person 11" != person.basicInfo.name) ||
+		(123 != person.basicInfo.age) ||
+		(Sex::Male != person.basicInfo.sex) ||
+		(3 != person.phones.size()) ||
+		(PhoneType::Home != person.phones[0].type) ||
+		("111" != person.phones[0].phoneNumber) ||
+		(PhoneType::Work != person.phones[1].type) ||
+		("222" != person.phones[1].phoneNumber) ||
+		(PhoneType::Mobile != person.phones[2].type) ||
+		("333" != person.phones[2].phoneNumber))
+			return false;
+
+	Person person2;
+	addPhone(person2.phones, "121212", PhoneType::Home);
+	addPhone(person2.phones, "232323", PhoneType::Work);
+	int phoneCount = client->getPersonPhoneCount(person2);
+	if (phoneCount != 2)
+		return false;
+
+	return true;
+}
+
 int main(int argc, char **argv) 
 {
 	const std::string DEFAULT_TRANSPORT = "http";
 	const std::string DEFAULT_PROTOCOL = "json";
 	const int DEFAULT_PORT = 80;
 
-	std::string host("192.168.197.161");
+	std::string host("localhost");//("192.168.197.161");
 	int port;
 	std::string transportType("");
 	std::string protocolType("");
@@ -101,9 +141,12 @@ int main(int argc, char **argv)
 		protocol = binaryProtocol;
 	}
 
-	shared_ptr<CalculatorClient> client(new CalculatorClient(protocol));
+	shared_ptr<DummyServiceClient> client(new DummyServiceClient(protocol));
 	transport->open();
-	printf("%d\n", client->add(0xFF, 10));
+	if (runTest(client))
+		printf("Test is passed");
+	else
+		printf("Test is failed");
 	return 0;
 }
 

@@ -1,7 +1,7 @@
 #include <algorithm>
 #include <string>
 
-#include "Calculator.h"
+#include "DummyServiceImpl.h"
 #include <thrift/server/TSimpleServer.h>
 #include <thrift/protocol/TBinaryProtocol.h>
 #include <thrift/protocol/TCompactProtocol.h>
@@ -17,20 +17,6 @@ using namespace ::apache::thrift::server;
 
 using boost::shared_ptr;
 
-class CalculatorHandler : virtual public CalculatorIf {
-public:
-	CalculatorHandler() {
-		// Your initialization goes here
-	}
-
-	int32_t add(const int32_t a, const int32_t b) {
-		// Your implementation goes here
-		printf("add\n");
-		return a + b;
-	}
-
-};
-
 bool cmdOptionExists(char** begin, char** end, const std::string& option)
 {
 	return std::find(begin, end, option) != end;
@@ -42,8 +28,8 @@ int main(int argc, char **argv)
 	const std::string DEFAULT_PROTOCOL = "json";
 	const int DEFAULT_PORT = 80;
 
-	shared_ptr<CalculatorHandler> handler(new CalculatorHandler());
-	shared_ptr<TProcessor> processor(new CalculatorProcessor(handler));
+	shared_ptr<DummyServiceHandler> handler(new DummyServiceHandler());
+	shared_ptr<TProcessor> processor(new DummyServiceProcessor(handler));
 	std::string transportType("");
 	std::string protocolType("");
 	int port;
