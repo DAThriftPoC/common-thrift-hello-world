@@ -2,44 +2,30 @@ package com.dataart.javathrifthelloworld;
 
 import org.apache.thrift.TException;
 
-import java.util.Arrays;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 public class DummyServiceImpl implements DummyService.Iface {
+    private final Map<String, Person> people = new HashMap<String, Person>();
+
     @Override
-    public int add(int a, int b) throws TException {
-        return a + b;
+    public void putPerson(Person person) throws TException {
+        people.put(person.getId(), person);
     }
 
     @Override
-    public Person getPerson(String id) throws TException {
-        PersonBasicInfo personBasicInfo = new PersonBasicInfo();
-        personBasicInfo.setName(String.format("Person %s", id));
-        personBasicInfo.setAge(123);
-        personBasicInfo.setSex(Sex.Male);
-
-        List<Phone> phones = Arrays.asList(
-                phone(PhoneType.Home, "111"),
-                phone(PhoneType.Work, "222"),
-                phone(PhoneType.Mobile, "333"));
-
-        Person person = new Person();
-        person.setId(id);
-        person.setBasicInfo(personBasicInfo);
-        person.setPhones(phones);
+    public Person getPerson(String id) throws PersonNotFoundException, TException {
+        Person person = people.get(id);
+        if(person == null) {
+            String message = String.format("No person with id %s", id);
+            throw new PersonNotFoundException(id, message);
+        }
 
         return person;
     }
 
     @Override
-    public int getPersonPhoneCount(Person person) throws TException {
-        return person.getPhones().size();
-    }
-
-    public static Phone phone(PhoneType phoneType, String phoneNumber) {
-        Phone phone = new Phone();
-        phone.setType(phoneType);
-        phone.setPhoneNumber(phoneNumber);
-        return phone;
+    public int getPersonCount() throws TException {
+        return people.size();
     }
 }

@@ -1,37 +1,48 @@
 namespace java com.dataart.javathrifthelloworld
 
-enum Sex {
-    Male = 1,
-    Female = 2,
-    NoIdea = 3
-}
-
-struct PersonBasicInfo {
-    1:string name,
-    2:i32 age,
-    3:Sex sex
-}
+typedef string Id
 
 enum PhoneType {
-    Home = 1,
-    Work = 2,
-    Mobile = 3
+    Home
+    Work
 }
 
-struct Phone {
-    1:string phoneNumber,
-    2:PhoneType type
+struct PhoneContactMethod {
+    1: PhoneType type
+    2: string number
+}
+
+struct EmailContactMethod {
+    1: string address
+}
+
+union ContactMethod {
+    1: PhoneContactMethod phone
+    2: EmailContactMethod email
+}
+
+enum Sex {
+    Male
+    Female
 }
 
 struct Person {
-    1:string id,
-    2:PersonBasicInfo basicInfo,
-    3:list<Phone> phones,
+    1: required Id id
+    2: required string name
+    3: optional string nickname
+    4: optional set<string> interests
+    5: optional list<ContactMethod> contactMethods
+    6: optional map<string, string> extras
+    7: optional Sex sex = Sex.Male
+}
+
+exception PersonNotFoundException {
+    1: required Id requestedId
+    2: required string errorMessage
 }
 
 service DummyService {
-    i32 add(1:i32 a, 2:i32 b)
-
-    Person getPerson(1:string id)
-    i32 getPersonPhoneCount(1:Person person)
+    void putPerson(1: Person person)
+    Person getPerson(1: Id id) throws (1: PersonNotFoundException e)
+    i32 getPersonCount()
 }
