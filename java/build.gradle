@@ -1,8 +1,6 @@
-apply plugin: 'application'
+apply plugin: 'java'
 apply plugin: 'idea'
 apply plugin: 'thrift'
-
-mainClassName = 'com.dataart.javathrifthelloworld.App'
 
 buildscript {
     repositories {
@@ -14,7 +12,7 @@ buildscript {
     }
 }
 
-sourceCompatibility = 1.5
+sourceCompatibility = 1.7
 version = '1.0'
 
 sourceSets {
