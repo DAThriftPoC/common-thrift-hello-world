@@ -2,15 +2,19 @@
 #define DUMMY_SERVICE_IMPL_H
 
 #include "DummyService.h"
+#include <vector>
 
 class DummyServiceHandler : virtual public DummyServiceIf
 {
 public:
 	DummyServiceHandler();
 	virtual ~DummyServiceHandler();
-	int32_t add(const int32_t a, const int32_t b);
+	void putPerson(const Person& person);
 	void getPerson(Person& _return, const std::string& id);
-	int32_t getPersonPhoneCount(const Person& person);	
+	int32_t getPersonCount();
+
+private:
+	std::map<std::string, Person> people;
 };
 
 #endif // DUMMY_SERVICE_IMPL_H

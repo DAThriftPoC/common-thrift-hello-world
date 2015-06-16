@@ -20,44 +20,126 @@ bool cmdOptionExists(char** begin, char** end, const std::string& option)
 	return std::find(begin, end, option) != end;
 }
 
-void addPhone(std::vector<Phone>& phones,
-	const std::string& num, PhoneType::type type)
+bool thereAreNoPeopleByDefault(shared_ptr<DummyServiceClient> client)
 {
-	Phone phone;
-	phone.phoneNumber = num;
-	phone.type = type;
-	phones.push_back(phone);
+	return client->getPersonCount() == 0;
 }
 
-bool runTest(shared_ptr<DummyServiceClient> client)
+bool canCreateANewPerson(shared_ptr<DummyServiceClient> client)
 {
-	int result = client->add(2, 3);
-	if (result != 5)
+	Person person;
+	person.__set_id("person1");
+	person.__set_name("John");
+    person.__set_nickname("johnny");
+	std::set<std::string> interests;
+	interests.insert("java");
+	interests.insert("c++");
+	person.__set_interests(interests);
+	std::vector<ContactMethod> methods;
+	{
+		ContactMethod method;
+		PhoneContactMethod phone;
+		phone.type = PhoneType::Home;
+		phone.number = "111";
+		method.phone = phone;
+		methods.push_back(method);
+	}
+	{
+		ContactMethod method;
+		EmailContactMethod email;
+		email.address = "11@11";
+		method.email = email;
+		methods.push_back(method);
+	}
+	person.__set_contactMethods(methods);
+	std::map<std::string, std::string> extras;
+	extras["age"] = "40";
+	extras["style"] = "freestyler";
+	person.__set_extras(extras);
+	person.__set_sex(Sex::Female);
+	client->putPerson(person);
+
+	if (client->getPersonCount() != 1)
 		return false;
+
+	Person testPerson;
+	client->getPerson(testPerson, "person1");
+	std::map<std::string, std::string>::iterator age = testPerson.extras.find("age");
+	std::map<std::string, std::string>::iterator style = testPerson.extras.find("style");
+	if (("person1" != testPerson.id) ||
+		("John" != testPerson.name) ||
+        ("johnny" != testPerson.nickname) ||
+		(2 != testPerson.interests.size()) ||
+		(testPerson.interests.find("java") == testPerson.interests.end()) ||
+		(testPerson.interests.find("c++") == testPerson.interests.end()) ||
+		(2 != testPerson.contactMethods.size()) ||
+		(PhoneType::Home != testPerson.contactMethods[0].phone.type) ||
+		("111" != testPerson.contactMethods[0].phone.number) ||
+		("11@11" != testPerson.contactMethods[1].email.address) ||
+		(2 != testPerson.extras.size()) ||
+		(age == testPerson.extras.end()) ||
+		(age->second != "40") ||
+		(style == testPerson.extras.end()) ||
+		(style->second != "freestyler") ||
+		(Sex::Female != testPerson.sex))
+			return false;
+	return true;
+}
+
+bool canCreateANewPersonWhenOptionalFieldAreNotSet(shared_ptr<DummyServiceClient> client)
+{
+	Person person;
+	person.__set_id("person1");
+	person.__set_name("John");
+	client->putPerson(person);
+	return (1 == client->getPersonCount());
+}
+
+bool canCreateANewPersonWithDefaults(shared_ptr<DummyServiceClient> client)
+{
+	{
+		Person person;
+		person.__set_id("person1");
+		person.__set_name("John");
+		client->putPerson(person);
+	}
 
 	Person person;
-	client->getPerson(person, "11");
-	if (("11" != person.id) ||
-		("Person 11" != person.basicInfo.name) ||
-		(123 != person.basicInfo.age) ||
-		(Sex::Male != person.basicInfo.sex) ||
-		(3 != person.phones.size()) ||
-		(PhoneType::Home != person.phones[0].type) ||
-		("111" != person.phones[0].phoneNumber) ||
-		(PhoneType::Work != person.phones[1].type) ||
-		("222" != person.phones[1].phoneNumber) ||
-		(PhoneType::Mobile != person.phones[2].type) ||
-		("333" != person.phones[2].phoneNumber))
-			return false;
+	client->getPerson(person, "person1");
+	return (Sex::Male == person.sex);
+}
 
-	Person person2;
-	addPhone(person2.phones, "121212", PhoneType::Home);
-	addPhone(person2.phones, "232323", PhoneType::Work);
-	int phoneCount = client->getPersonPhoneCount(person2);
-	if (phoneCount != 2)
+bool canUpdateAnExistingPerson(shared_ptr<DummyServiceClient> client)
+{
+	{
+		Person person;
+		person.__set_id("person1");
+		person.__set_name("John");
+		client->putPerson(person);
+	}
+
+	{
+		Person person;
+		person.__set_id("person1");
+		person.__set_name("John2");
+		client->putPerson(person);
+	}
+
+	return (1 == client->getPersonCount());
+}
+
+bool cantGetAPersonThatDoesNotExist(shared_ptr<DummyServiceClient> client)
+{
+	try
+	{
+		Person person;
+		client->getPerson(person, "111");
 		return false;
-
-	return true;
+	}
+	catch (PersonNotFoundException e)
+	{
+		return ("111" == e.requestedId) && (e.errorMessage.compare("No person with id 111") == 0);
+	}
 }
 
 int main(int argc, char **argv) 
@@ -66,7 +148,7 @@ int main(int argc, char **argv)
 	const std::string DEFAULT_PROTOCOL = "json";
 	const int DEFAULT_PORT = 80;
 
-	std::string host("localhost");//("192.168.197.161");
+	std::string host/*("localhost");*/("192.168.197.161");
 	int port;
 	std::string transportType("");
 	std::string protocolType("");
@@ -143,8 +225,15 @@ int main(int argc, char **argv)
 
 	shared_ptr<DummyServiceClient> client(new DummyServiceClient(protocol));
 	transport->open();
-	if (runTest(client))
+	if (thereAreNoPeopleByDefault(client) &&
+		canCreateANewPerson(client) &&
+		canCreateANewPersonWhenOptionalFieldAreNotSet(client) &&
+		canCreateANewPersonWithDefaults(client) &&
+		canUpdateAnExistingPerson(client) &&
+		cantGetAPersonThatDoesNotExist(client))
+	{
 		printf("Test is passed");
+	}
 	else
 		printf("Test is failed");
 	return 0;
