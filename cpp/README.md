@@ -91,49 +91,19 @@ Open the Visual Studio solution file and build the solution.
 
 # Building for Linux
 
-1. Install Boost:  
+1. Install Boost, libtool, autoconf, automake, yacc, lex, cmake, libssl-dev:  
   ```
-$ sudo apt-get install libboost-dev libboost-test-dev
-  ```
-
-2. Install libtool:  
-  ```
-$ sudo apt-get install libtool
+$ sudo apt-get install libboost-dev libboost-test-dev libtool autoconf automake byacc flex cmake libssl-dev
   ```
 
-3. Install autoconf:  
-  ```
-$ sudo apt-get install autoconf
-  ```
-
-4. Install automake:  
-  ```
-$ sudo apt-get install automake
-  ```
-
-5. Install yacc and lex:  
-  ```
-$ sudo apt-get install byacc flex
-  ```
-
-  5.1. **OPTIONAL.** *If you want to build the libthriftnb library and the Threaded Server
+  1.1. **OPTIONAL.** *If you want to build the libthriftnb library and the Threaded Server
  application you need to install the libevent library previously. To install libevent do:*  
 
   ```
 $ sudo apt-get install libevent-dev
   ```
 
-6. Install cmake:  
-  ```
-$ sudo apt-get install cmake
-  ```
-
-7. Install libssl-dev:  
-  ```
-$ sudo apt-get install libssl-dev
-  ```
-
-8. Download Thrift from <https://github.com/apache/thrift/tree/0.9.2>.  
+2. Download Thrift from <https://github.com/apache/thrift/tree/0.9.2>.  
 Change your current directory to the Thrift root directory.  
 Run bootstrap.sh:  
   ```
@@ -156,7 +126,7 @@ Add shared libraries directories to the dynamic linker cache:
 $ sudo ldconfig
   ```
 
-9. Change your current directory to the thrift subdirectory of the base directory
+3. Change your current directory to the thrift subdirectory of the base directory
  and run:  
   ```
 $ sh gencpp.sh
@@ -164,17 +134,17 @@ $ sh gencpp.sh
 The Thrift compiler will create the cpp/src/gen-cpp subdirectory of the base
  directory and place source code files there.
 
-10. Change your current directory to the cpp/src subdirectory of the base
+4. Change your current directory to the cpp/src subdirectory of the base
  directory. Open the environment.cmake file in a text editor and edit values of
  the listed environment variables.
  
-11. Change your current directory to the cpp/src subdirectory of the base directory
+5. Change your current directory to the cpp/src subdirectory of the base directory
  and type:  
   ```
 $ cmake .
   ```
 
-  11.1. **OPTIONAL.** *If you want to build the Threaded Server application then
+  5.1. **OPTIONAL.** *If you want to build the Threaded Server application then
 	type:*
 
   ```
